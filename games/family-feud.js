@@ -8,7 +8,7 @@ import { logger } from '../logger.js';
 const MAX_STRIKES = 3;
 const FIRST_FACE_OFF_SECONDS = 5;
 const NEXT_FACE_OFF_SECONDS = 10;
-const SESSION_TTL = 4 * 60 * 60 * 1000;
+const SESSION_TTL = 1 * 60 * 60 * 1000;
 
 // ─── Question helpers (work on questions array provided by the client) ───────
 
@@ -114,6 +114,8 @@ function createSessionState() {
 }
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
+
+export function getFamilyFeudSessionCount() { return Object.keys(ffSessions).length; }
 
 export function initFamilyFeud(io) {
   const nsp = io.of('/family-feud');

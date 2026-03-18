@@ -2,7 +2,7 @@
   "name": "realtime-server",
   "version": "1.0.0",
   "description": "Socket.IO server for the secure letter game",
-  "main": "socketServer.js",
+  "main": "socket_server.js",
   "type": "module",
   "scripts": {
     "start": "node socket_server.js"

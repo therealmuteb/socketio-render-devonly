@@ -9,7 +9,7 @@ function removeArabicDots(text) {
 }
 
 const mnaSessions = {};
-const MNA_SESSION_TTL = 4 * 60 * 60 * 1000;
+const MNA_SESSION_TTL = 1 * 60 * 60 * 1000;
 
 function mnaCreateSession() {
   return {
@@ -100,6 +100,8 @@ function mnaGetHostQuestion(session) {
   if (round === 2) return { type: 'who-am-i', clues: q.clues, info: q.info || '', answer: q.answer, image: q.image || '', id: q.id };
   if (round === 3) return { type: 'who-said-it', quote: q.quote, answer: q.answer, id: q.id, options: q.options || [] };
 }
+
+export function getMnAnaSessionCount() { return Object.keys(mnaSessions).length; }
 
 export function initMnAna(io) {
   const nsp = io.of('/mn-ana');

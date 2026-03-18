@@ -4,7 +4,7 @@
 import { logger } from '../logger.js';
 
 const sessions = {};
-const SESSION_TTL = 4 * 60 * 60 * 1000;
+const SESSION_TTL = 1 * 60 * 60 * 1000;
 
 // #5: centralized session factory — replaces 10x repeated inline init
 function getOrCreateSession(sessionId) {
@@ -31,6 +31,8 @@ function isValidChangeQuestion(val) {
 function isValidSelectLetter(obj) {
   return obj && typeof obj.letter === 'string' && typeof obj.timestamp === 'number';
 }
+
+export function getHrofSessionCount() { return Object.keys(sessions).length; }
 
 export function initHrof(io) {
   // #8: setInterval lives inside initHrof — safe to call initHrof once

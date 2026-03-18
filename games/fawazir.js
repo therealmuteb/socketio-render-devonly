@@ -15,7 +15,7 @@ const FAWAZIR_MYSTERY_POOL = [
 ];
 
 const fwSessions = {};
-const FW_SESSION_TTL = 4 * 60 * 60 * 1000;
+const FW_SESSION_TTL = 1 * 60 * 60 * 1000;
 
 function getFwSession(sessionId) {
   if (!fwSessions[sessionId]) {
@@ -139,6 +139,8 @@ function fwStartNewGame(teamNames, settings = {}, s, questions, allCards) {
   s.timerRemaining = timerDuration;
   s.timerEndAt     = 0;
 }
+
+export function getFawazirSessionCount() { return Object.keys(fwSessions).length; }
 
 export function initFawazir(io) {
   const nsp = io.of('/fawazir');

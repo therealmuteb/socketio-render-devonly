@@ -6,10 +6,10 @@ import { Server } from 'socket.io';
 import cors from 'cors';
 import { logger } from './logger.js';
 
-import { initHrof } from './games/hrof.js';
-import { initFawazir } from './games/fawazir.js';
-import { initMnAna } from './games/mn-ana.js';
-import { initFamilyFeud } from './games/family-feud.js';
+import { initHrof, getHrofSessionCount } from './games/hrof.js';
+import { initFawazir, getFawazirSessionCount } from './games/fawazir.js';
+import { initMnAna, getMnAnaSessionCount } from './games/mn-ana.js';
+import { initFamilyFeud, getFamilyFeudSessionCount } from './games/family-feud.js';
 
 const app = express();
 const server = http.createServer(app);
@@ -27,6 +27,9 @@ const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
 
 const io = new Server(server, {
   cors: { origin: ALLOWED_ORIGINS },
+  transports: ['websocket'],
+  pingTimeout: 30000,
+  pingInterval: 25000,
 });
 
 // === Rate Limiting (shared across all namespaces) ===
@@ -70,11 +73,17 @@ applyRateLimit(io.of('/mn-ana'));
 applyRateLimit(io.of('/family-feud'));
 
 // === Health endpoint ===
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.json({
     status: 'ok',
     uptime: Math.floor(process.uptime()),
     connections: io.engine.clientsCount,
+    sessions: {
+      hrof:        getHrofSessionCount(),
+      fawazir:     getFawazirSessionCount(),
+      'mn-ana':    getMnAnaSessionCount(),
+      'family-feud': getFamilyFeudSessionCount(),
+    },
   });
 });
 
